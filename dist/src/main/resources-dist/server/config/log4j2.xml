@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Appenders>
-        <RollingFile name="LogToRollingFile" fileName="${env:app.dir}/logs/app.log"
-                     filePattern="${env:app.dir}/logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="LogToRollingFile" fileName="${sys:app.dir}/logs/app.log"
+                     filePattern="${sys:app.dir}/logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>

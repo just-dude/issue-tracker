@@ -59,8 +59,18 @@
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>
             <resource>
-                <directory>src/main/resources-dist</directory>
-                <targetPath>${project.build.directory}/resources</targetPath>
+                <directory>src/main/resources-dist/server</directory>
+                <targetPath>${project.build.directory}/resources/server</targetPath>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources-dist/updater</directory>
+                <targetPath>${project.build.directory}/resources/updater</targetPath>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources-dist/docker</directory>
+                <targetPath>${project.build.directory}</targetPath>
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -96,6 +106,25 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build docker image</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <executable>sh</executable>
+                            <arguments>
+                                <argument>${project.build.directory}/build_docker.sh</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

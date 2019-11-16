@@ -1,0 +1,8 @@
+#Загрузить базовый образ Ubuntu 18.04
+FROM ubuntu:16.04
+
+COPY jre-8u231-linux-x64.tar.gz /tmp/jre.tar.gz
+
+COPY dist-0.0.1-SNAPSHOT.zip /opt/dist.zip
+
+RUN echo java -version
