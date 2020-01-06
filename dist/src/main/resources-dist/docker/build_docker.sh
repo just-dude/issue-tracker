@@ -1,1 +1,0 @@
-docker build -t issue-tracker ${project.build.directory}

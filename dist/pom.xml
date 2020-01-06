@@ -3,13 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>parent</artifactId>
-        <groupId>issue-tracker</groupId>
+        <artifactId>issue-tracker</artifactId>
+        <groupId>justdude.issuetracker</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dist</artifactId>
+    <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
@@ -34,8 +35,8 @@
             <artifactId>liquibase-slf4j</artifactId>
         </dependency>
         <dependency>
-            <groupId>issue-tracker</groupId>
-            <artifactId>application</artifactId>
+            <groupId>justdude.issuetracker</groupId>
+            <artifactId>backend</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
@@ -45,61 +46,59 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>issue-tracker</groupId>
+            <groupId>justdude.issuetracker</groupId>
             <artifactId>frontend</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+        <dependency>
+            <groupId>justdude.dbupdater</groupId>
+            <artifactId>db-updater</artifactId>
+            <type>tar</type>
+        </dependency>
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <targetPath>${project.build.directory}/classes</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/resources-dist/server</directory>
-                <targetPath>${project.build.directory}/resources/server</targetPath>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources-dist/updater</directory>
-                <targetPath>${project.build.directory}/resources/updater</targetPath>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources-dist/docker</directory>
-                <targetPath>${project.build.directory}</targetPath>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>./</classpathPrefix>
-                            <mainClass>issuetracker.update.SpringAppDbUpdater</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <excludeGroupIds>issue-tracker</excludeGroupIds>
-                            <includeScope>runtime</includeScope>
-                            <outputDirectory>${project.build.directory}/lib/</outputDirectory>
+                            <outputDirectory>${project.build.directory}/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/application</directory>
+                                    <targetPath>${project.build.directory}/resources/application</targetPath>
+                                    <filtering>true</filtering>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/db-updater</directory>
+                                    <targetPath>${project.build.directory}/resources/db-updater</targetPath>
+                                    <filtering>true</filtering>`
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>docker-entrypoint.sh</include>
+                                    </includes>
+                                    <targetPath>${project.build.directory}/resources</targetPath>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>dockerfile</include>
+                                    </includes>
+                                    <targetPath>${project.build.directory}</targetPath>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
@@ -118,9 +117,12 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <executable>sh</executable>
+                            <executable>docker</executable>
                             <arguments>
-                                <argument>${project.build.directory}/build_docker.sh</argument>
+                                <argument>build</argument>
+                                <argument>-t</argument>
+                                <argument>issue-tracker</argument>
+                                <argument>${project.build.directory}</argument>
                             </arguments>
                         </configuration>
                     </execution>

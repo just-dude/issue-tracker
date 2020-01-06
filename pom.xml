@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>issue-tracker</groupId>
-    <artifactId>parent</artifactId>
+    <groupId>justdude.issuetracker</groupId>
+    <artifactId>issue-tracker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Issue tracker</name>
@@ -17,7 +17,7 @@
     </properties>
 
     <modules>
-        <module>application</module>
+        <module>backend</module>
         <module>frontend</module>
         <module>dist</module>
     </modules>
@@ -87,6 +87,12 @@
                 <groupId>com.mattbertolini</groupId>
                 <artifactId>liquibase-slf4j</artifactId>
                 <version>1.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>justdude.dbupdater</groupId>
+                <artifactId>db-updater</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <type>tar</type>
             </dependency>
 
             <dependency>

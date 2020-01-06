@@ -3,7 +3,7 @@
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
     <id>dist</id>
     <formats>
-        <format>zip</format>
+        <format>tar</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
@@ -11,31 +11,27 @@
             <directory>target/resources</directory>
             <outputDirectory/>
         </fileSet>
-        <fileSet>
-            <directory>target/lib</directory>
-            <outputDirectory>updater/lib</outputDirectory>
-        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>updater/lib</outputDirectory>
+            <outputDirectory>application/lib</outputDirectory>
             <includes>
-                <include>issue-tracker:dist</include>
-            </includes>
-            <outputFileNameMapping>update.jar</outputFileNameMapping>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>server/lib</outputDirectory>
-            <includes>
-                <include>issue-tracker:application</include>
+                <include>justdude.issuetracker:backend</include>
             </includes>
             <outputFileNameMapping>application.jar</outputFileNameMapping>
         </dependencySet>
         <dependencySet>
             <unpack>true</unpack>
-            <outputDirectory>server/frontend</outputDirectory>
+            <outputDirectory>application/frontend</outputDirectory>
             <includes>
-                <include>issue-tracker:frontend</include>
+                <include>justdude.issuetracker:frontend</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <unpack>true</unpack>
+            <outputDirectory>db-updater</outputDirectory>
+            <includes>
+                <include>justdude.dbupdater:db-updater</include>
             </includes>
         </dependencySet>
     </dependencySets>

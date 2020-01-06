@@ -1,0 +1,18 @@
+#Сборка производится на основе базового образа, основанного на ubuntu, в который добавлена oracle java
+FROM app-image:latest
+
+# Копируем архив с приложением и обновлением БД в образ
+COPY ${project.name}-${project.version}.tar /tmp/dist.tar
+
+# Разархивируем архив с приложением и обновлением БД в opt
+RUN tar -xvf /tmp/dist.tar -C /opt && \
+    chmod +x /opt/application/bin/startup.sh /opt/db-updater/bin/startup.sh /opt/docker-entrypoint.sh && \
+    rm -rf /tmp/**
+
+# Устанавливаем переменные среды для обновления БД
+ENV APPLICATION_CONFIG_PATH /opt/application/config/application.yml
+ENV CHANGELOG_PATH /opt/db-updater/rdbms/changelog-main.xml
+ENTRYPOINT ["/opt/docker-entrypoint.sh"]
+
+# Открываем порт 8080 для доступа извне
+EXPOSE 8080
