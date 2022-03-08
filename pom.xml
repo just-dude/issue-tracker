@@ -80,7 +80,7 @@
             <dependency>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-core</artifactId>
-                <version>3.5.3</version>
+                <version>4.8.0</version>
             </dependency>
             <!-- special dependency to fix liquibase's logging fetish -->
             <dependency>
