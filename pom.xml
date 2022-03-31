@@ -13,7 +13,7 @@
         <content.encoding>utf-8</content.encoding>
         <project.build.sourceEncoding>${content.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${content.encoding}</project.reporting.outputEncoding>
-        <spring.version>2.1.9.RELEASE</spring.version>
+        <spring.version>2.5.12</spring.version>
     </properties>
 
     <modules>
